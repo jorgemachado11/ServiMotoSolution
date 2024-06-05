@@ -1,0 +1,151 @@
+syntax = "proto3";
+
+service MobilityService {
+  rpc Authenticate (AuthRequest) returns (AuthResponse);
+  rpc AuthenticateMotorcycle (AuthRequest) returns (AuthResponse);
+  rpc CreateTask (CreateTaskRequest) returns (TaskResponse);
+  rpc AllocateTask (AllocateTaskRequest) returns (TaskResponse);
+  rpc CompleteTask (CompleteTaskRequest) returns (TaskResponse);
+  rpc AssociateService (ServiceRequest) returns (ServiceResponse);
+  rpc DisassociateService (ServiceRequest) returns (ServiceResponse);
+  rpc AdminAction (AdminActionRequest) returns (AdminActionResponse);
+
+  rpc ListTasks (TaskListRequest) returns (TaskListResponse);
+  rpc ListServices (ServiceListRequest) returns (ServiceListResponse);
+  rpc ListMotorcycles (MotorcycleListRequest) returns (MotorcycleListResponse);
+  rpc UpdateService (UpdateServiceRequest) returns (ServiceResponse);
+  rpc QueryService (QueryServiceRequest) returns (ServiceResponse);
+
+  rpc CreateAdmin (CreateAdminRequest) returns (AdminResponse);
+  rpc CreateMotorcycle (CreateMotorcycleRequest) returns (MotorcycleResponse);
+}
+
+message AuthRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message AuthResponse {
+  bool success = 1;
+  string message = 2;
+  string userId = 3;
+  string serviceId = 4;
+  string serviceName = 5;
+}
+
+message CreateTaskRequest {
+  string taskName = 1;
+  string description = 2;
+  string serviceId = 3;
+}
+
+message TaskResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message AllocateTaskRequest {
+  string taskId = 1;
+  string clientId = 2;
+}
+
+message CompleteTaskRequest {
+  string taskId = 1;
+  string clientId = 2;
+}
+
+message ServiceRequest {
+  string clientId = 1;
+  string serviceId = 2;
+}
+
+message ServiceResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message AdminActionRequest {
+  string adminId = 1;
+  string actionType = 2;
+  string payload = 3;
+}
+
+message AdminActionResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message TaskListRequest {
+  string serviceId = 1;
+}
+
+message TaskListResponse {
+  repeated Task tasks = 1;
+}
+
+message Task {
+  string id = 1;
+  string taskName = 2;
+  string description = 3;
+  string serviceId = 4;
+  string serviceName = 5;
+  bool isCompleted = 6;
+  string assignedTo = 7;
+}
+
+message ServiceListRequest {}
+
+message ServiceListResponse {
+  repeated Service services = 1;
+}
+
+message Service {
+  string id = 1;
+  string serviceName = 2;
+  string description = 3;
+}
+
+message MotorcycleListRequest {}
+
+message MotorcycleListResponse {
+  repeated Motorcycle motorcycles = 1;
+}
+
+message Motorcycle {
+  string id = 1;
+  string motorcycleName = 2;
+  string description = 3;
+}
+
+message UpdateServiceRequest {
+  string serviceId = 1;
+  string serviceName = 2;
+  string description = 3;
+}
+
+message QueryServiceRequest {
+  string serviceId = 1;
+}
+
+message CreateAdminRequest {
+  string username = 1;
+  string password = 2;
+  string email = 3;
+  string serviceId = 4;
+}
+
+message AdminResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message CreateMotorcycleRequest {
+  string motorcycleName = 1;
+  string description = 2;
+  string password = 3;
+}
+
+message MotorcycleResponse {
+  bool success = 1;
+  string message = 2;
+}
